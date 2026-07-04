@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Manual Avanzado de Seguridad del Evaluador - La Movida de SST</title>
+    
+    <!-- SEO y PWA Meta Tags -->
+    <meta name="description" content="Manual táctico y técnico para ingenieros evaluadores de estructuras colapsadas post-sismo. Protocolos de seguridad ATC-20, FEMA y supervivencia en terreno.">
+    <meta name="keywords" content="evaluación estructural, sismo, rescate, patología estructural, ATC-20, ingeniería sísmica, prevención de riesgos, estructuras colapsadas">
+    <meta name="author" content="David Linares Brea">
+    <meta name="theme-color" content="#00247D">
+    <meta property="og:title" content="Manual de Seguridad del Evaluador - SST">
+    <meta property="og:description" content="Guía maestra de supervivencia y evaluación estructural post-sismo. De la reacción a la prevención.">
+    <meta property="og:image" content="https://assets.poap.xyz/ff0a7e68-7080-4798-af10-4a481f762e71.jpeg">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'movida-blue': '#00205b',
+                        'movida-teal': '#007b85',
+                        'movida-yellow': '#ffb600',
+                        'movida-red': '#ef4444',
+                        'movida-green': '#70ad47',
+                        'movida-border': '#e2e8f0'
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Font 'Outfit' -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        body {
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Outfit', sans-serif;
+            background-color: #f8fafc;
+            user-select: none;
+        }
+        p, li {
+            font-size: 1.05rem;
+            line-height: 1.5;
+            color: #475569;
+        }
+        h1 {
+            color: #00205b;
+        }
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            border-bottom: 2px solid #007b85;
+            color: #00205b;
+            padding-bottom: 0.5rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #007b85;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .accordion-content {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.4s ease, padding 0.4s ease;
+        }
+        .accordion-container.active .accordion-content {
+            grid-template-rows: 1fr;
+        }
+        .accordion-container.active {
+            border-color: #007b85;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        li {
+            margin-bottom: 0.75rem;
+        }
+        .tab-btn, .accordion-header {
+            transition: all 0.15s ease;
+        }
+        .tab-btn:active, .accordion-header:active {
+            opacity: 0.6;
+            transform: scale(0.97);
+        }
+        /* Mejoras UX Móvil: Zona táctil ampliada y legibilidad */
+        .accordion-header {
+            padding: 0.25rem 0;
+        }
+        @media (hover: hover) {
+            .accordion-header:hover span {
+                color: #007b85;
+            }
+        }
+    </style>
+</head>
+<body class="pt-24 pb-32">
+
+    <!-- Franja Tricolor Nacional de Venezuela -->
+    <div class="fixed top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#FFCC00] via-[#00247D] to-[#CF142B] z-[60]"></div>
+
+    <header class="fixed top-1.5 left-0 w-full bg-white/90 backdrop-blur-[15px] border-b border-movida-border shadow-sm z-50 h-[4.5rem] flex items-center px-5 justify-center">
+        <div class="flex items-center gap-4 w-full justify-center">
+            <!-- Contenedor del Logo con Efecto Pulse -->
+            <div class="relative flex-shrink-0">
+                <div class="absolute inset-0 rounded-full animate-ping opacity-25 bg-movida-teal"></div>
+                <img src="https://assets.poap.xyz/ff0a7e68-7080-4798-af10-4a481f762e71.jpeg" alt="Logo La Movida de SST" class="w-14 h-14 rounded-full object-cover border-2 border-white shadow-[0_0_18px_rgba(0,123,133,0.8)] relative z-10 transition-transform duration-300 hover:scale-105">
+            </div>
+            
+            <div class="flex flex-col justify-center">
+                <h1 class="text-[1.15rem] font-black tracking-tight leading-none text-movida-blue uppercase flex items-center gap-1.5">
+                    La Movida de SST <span class="text-lg drop-shadow-sm" title="Venezuela">🇻🇪</span>
+                </h1>
+                <span class="text-[0.65rem] font-bold text-movida-teal uppercase tracking-wider block mt-0.5">De la Reacción a la prevención</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="w-full max-w-md mx-auto px-5 mt-2">
+        
+        <!-- PESTAÑA 1: INICIO Y PROTOCOLO PREVIO -->
+        <div id="tab-inicio" class="tab-content active">
+            <div class="mb-4">
+                <span class="text-xs font-extrabold text-movida-teal uppercase tracking-widest">Fase 1: Preparación Táctica</span>
+                <h2 class="text-2xl font-black mt-0.5 text-movida-blue border-none pb-0">Gestión del Riesgo Personal</h2>
+                <p class="text-sm mt-1">Antes de observar el daño en la estructura, el ingeniero debe asegurar su propia viabilidad operativa. La regla de oro es: <strong>El evaluador no debe convertirse en víctima.</strong></p>
+            </div>
+
+            <!-- CHECKPOINT CRÍTICO: MATRIZ GO/NO-GO -->
+            <div class="border-2 border-movida-red bg-movida-red/5 p-4 rounded-2xl mb-5 shadow-sm">
+                <div class="flex items-center gap-2 text-movida-red font-black text-base mb-2 uppercase tracking-tight">
+                    <i class="fa-solid fa-ban text-lg"></i>
+                    <span>Matriz Go/No-Go: Checkpoint de Ingreso</span>
+                </div>
+                <p class="text-xs text-slate-700 mb-3 leading-relaxed font-semibold">
+                    Criterios absolutos de exclusión operativa. Si se cumple <span class="underline">al menos uno</span> de los siguientes factores, se declara la zona como <strong>NO-GO (NO INGRESAR)</strong> y se aborta la misión:
+                </p>
+                <ul class="space-y-2 text-xs text-slate-700 font-medium pl-0">
+                    <li class="flex items-start gap-2.5 bg-white/70 p-2 rounded-xl border border-movida-red/20 mb-0">
+                        <i class="fa-solid fa-circle-exclamation text-movida-red mt-0.5 flex-shrink-0"></i>
+                        <span><strong>Atmósfera Peligrosa:</strong> Presencia de olor fuerte a gas licuado, gas natural o vapores químicos inflamables sin ventilación activa.</span>
+                    </li>
+                    <li class="flex items-start gap-2.5 bg-white/70 p-2 rounded-xl border border-movida-red/20 mb-0">
+                        <i class="fa-solid fa-circle-exclamation text-movida-red mt-0.5 flex-shrink-0"></i>
+                        <span><strong>Inclinación Estructural Visible:</strong> Desplome permanente evidente en la verticalidad global de columnas o muros ($>1/200$).</span>
+                    </li>
+                    <li class="flex items-start gap-2.5 bg-white/70 p-2 rounded-xl border border-movida-red/20 mb-0">
+                        <i class="fa-solid fa-circle-exclamation text-movida-red mt-0.5 flex-shrink-0"></i>
+                        <span><strong>Colapso Inminente de Nudos:</strong> Desprendimiento masivo de recubrimiento con pandeo severo del acero de refuerzo en nudos estructurales críticos.</span>
+                    </li>
+                    <li class="flex items-start gap-2.5 bg-white/70 p-2 rounded-xl border border-movida-red/20 mb-0">
+                        <i class="fa-solid fa-circle-exclamation text-movida-red mt-0.5 flex-shrink-0"></i>
+                        <span><strong>Inestabilidad Geotécnica:</strong> Estructura cimentada sobre la corona de taludes con grietas de tracción activas o laderas inestables post-sismo.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="border-l-4 border-movida-red bg-movida-red/5 p-4 rounded-r-xl mb-4">
+                <div class="flex items-center gap-2 text-movida-red font-bold mb-1">
+                    <i class="fa-solid fa-stopwatch"></i>
+                    <span>SÍNDROME DE FATIGA POR ALARMA (FEMA P-2055)</span>
+                </div>
+                <p class="text-sm text-slate-700 font-medium leading-relaxed">
+                    Tras más de 890 réplicas (contexto sismo 2024), el cerebro del evaluador puede insensibilizarse al peligro. <strong>Nunca asuma que una estructura que soportó el sismo principal soportará una réplica menor.</strong> El daño estructural es acumulativo. La estructura tiene un "presupuesto de ductilidad" que ya pudo haberse agotado.
+                </p>
+            </div>
+
+            <h2>1. Conciencia Situacional Avanzada</h2>
+
+            <div class="space-y-3">
+                <div class="accordion-container border border-movida-border bg-white rounded-[1.2rem] p-4 shadow-sm transition-all duration-300">
+                    <div class="accordion-header flex justify-between items-center cursor-pointer select-none" onclick="toggleAccordion(this)">
+                        <span class="font-bold text-movida-blue flex items-center gap-2"><i class="fa-solid fa-brain text-movida-teal"></i> Carga Cognitiva y Salud Mental</span>
+                        <i class="fa-solid fa-chevron-down text-movida-teal transition-transform duration-300 text-sm"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="overflow-hidden pt-3">
+                            <p class="text-sm text-slate-700 mb-2">
+                                La evaluación en zonas afectadas por sismos (como el clima cálido-húmedo de La Guaira o Miranda) impone un estrés severo.
+                            </p>
+                            <ul class="list-disc pl-5 text-sm space-y-2 mt-1 text-slate-700">
+                                <li><strong>Hidratación Táctica:</strong> Beba agua antes de tener sed. La deshidratación leve (2%) reduce la capacidad de toma de decisiones rápidas, vital para escapar de un colapso inminente.</li>
+                                <li><strong>Relevos Mandatorios:</strong> No exceda las 4 horas de evaluación continua sin un descanso fuera de la "zona caliente". La fatiga visual impide detectar fisuras por cortante finas, pero letales, en columnas.</li>
+                                <li><strong>Descompresión Post-Jornada:</strong> El estrés extremo genera "túnel cognitivo" (pérdida de visión periférica). Realice un debriefing obligatorio de 10 minutos con su binomio al cerrar el turno para drenar la carga emocional y asegurar la agudeza del día siguiente.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-container border border-movida-border bg-white rounded-[1.2rem] p-4 shadow-sm transition-all duration-300">
+                    <div class="accordion-header flex justify-between items-center cursor-pointer select-none" onclick="toggleAccordion(this)">
+                        <span class="font-bold text-movida-blue flex items-center gap-2"><i class="fa-solid fa-users-viewfinder text-movida-teal"></i> Dinámica del Binomio (Safety Watch)</span>
+                        <i class="fa-solid fa-chevron-down text-movida-teal transition-transform duration-300 text-sm"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="overflow-hidden pt-3">
+                            <p class="text-sm text-slate-700 mb-2">
+                                El "Safety Watch" o Vigía no es un simple acompañante; es el salvavidas del evaluador.
+                            </p>
+                            <ul class="list-disc pl-5 text-sm space-y-2 mt-1 text-slate-700">
+                                <li><strong>Visión Periférica:</strong> Mientras el evaluador enfoca su visión de túnel (macular) en medir el espesor de una grieta, el vigía debe mantener la visión periférica buscando desprendimientos en niveles superiores.</li>
+                                <li><strong>Palabra de Seguridad:</strong> Establezcan una palabra o señal (ej. silbato largo) que signifique <strong>"EVACUACIÓN INMEDIATA"</strong>. Quien la escuche no pregunta por qué, solo corre hacia la zona segura preestablecida.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-container border border-movida-border bg-white rounded-[1.2rem] p-4 shadow-sm transition-all duration-300">
+                    <div class="accordion-header flex justify-between items-center cursor-pointer select-none" onclick="toggleAccordion(this)">
+                        <span class="font-bold text-movida-blue flex items-center gap-2"><i class="fa-solid fa-mask-ventilator text-movida-teal"></i> Riesgos Biológicos e Invisibles</span>
+                        <i class="fa-solid fa-chevron-down text-movida-teal transition-transform duration-300 text-sm"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="overflow-hidden pt-3">
+                            <p class="text-sm text-slate-700 mb-2">
+                                Los peligros no estructurales matan lentamente o por asfixia.
+                            </p>
+                            <ul class="list-disc pl-5 text-sm space-y-2 mt-1 text-slate-700">
+                                <li><strong>Atmósferas Peligrosas:</strong> En sótanos, el gas natural puede acumularse sin olor si el mercaptano fue filtrado por el suelo. <strong>Nunca use ascensores</strong> (pueden ser trampas mortales si falla la energía) y desconfíe del aire viciado en áreas confinadas.</li>
+                                <li><strong>Polvo de Sílice y Asbesto:</strong> El colapso pulveriza el concreto. Inhalar polvo de mampostería sin mascarilla N95 (mínimo) expone al evaluador a silicosis aguda.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NUEVO ACORDEÓN: EPP CRÍTICO -->
+                <div class="accordion-container border border-movida-border bg-white rounded-[1.2rem] p-4 shadow-sm transition-all duration-300">
+                    <div class="accordion-header flex justify-between items-center cursor-pointer select-none" onclick="toggleAccordion(this)">
+                        <span class="font-bold text-movida-blue flex items-center gap-2"><i class="fa-solid fa-helmet-safety text-movida-teal"></i> EPP Crítico (Peligros Ocultos)</span>
+                        <i class="fa-solid fa-chevron-down text-movida-teal transition-transform duration-300 text-sm"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="overflow-hidden pt-3">
+                            <ul class="list-disc pl-5 text-sm space-y-2 mt-1 text-slate-700">
+                                <li><strong class="text-movida-red">Riesgo de Asbesto (Filtros P100):</strong> Muchas estructuras antiguas en Venezuela (1950-1980) pulverizan asbesto al colapsar. La mascarilla N95 estándar es insuficiente; el evaluador <strong>debe</strong> usar respiradores con filtros particulados P100 o N100.</li>
+                                <li><strong>Calzado Anti-Perforación:</strong> Las botas con punta de acero protegen de impactos, pero pisar un clavo oxidado o vidrio templado astillado lo inmovilizará, impidiendo escapar de una réplica. Es vital usar plantillas de Kevlar o acero.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ACORDEÓN: KIT DE SUPERVIVENCIA TÁCTICA -->
+                <div class="accordion-container border border-movida-border bg-white rounded-[1.2rem] p-4 shadow-sm transition-all duration-300">
+                    <div class="accordion-header flex justify-between items-center cursor-pointer select-none" onclick="toggleAccordion(this)">
+                        <span class="font-bold text-movida-blue flex items-center gap-2"><i class="fa-solid fa-screwdriver-wrench text-movida-teal"></i> Kit de Supervivencia Táctica</span>
+                        <i class="fa-solid fa-chevron-down text-movida-teal transition-transform duration-300 text-sm"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="overflow-hidden pt-3">
+                            <p class="text-sm text-slate-700 mb-2">
+                                Portar siempre anclado al arnés o chaleco de alta visibilidad:
+                            </p>
+                            <ul class="list-disc pl-5 text-sm space-y-2 mt-1 text-slate-700">
+                                <li><strong>Lápiz Detector de Voltaje (Sin Contacto):</strong> Cables rotos invisibles pueden energizar rejas, marcos de puertas y charcos de agua. Verifique siempre antes de tocar superficies metálicas oscuras.</li>
+                                <li><strong>Silbato Pealess (Tipo Fox 40):</strong> Si queda atrapado, gritar agotará su voz en 15 minutos debido al polvo. Un silbato sin bola interior (que no se tranca) es su alarma de vida.</li>
+                                <li><strong>Linterna de Cabeza (Headlamp):</strong> De alta potencia para iluminar cavernas estructurales manteniendo ambas manos libres para el apoyo físico.</li>
+                                <li><strong>Marcaje con FECHA Y HORA:</strong> Al usar pintura en spray, anote siempre la <strong>fecha y HORA EXACTA</strong>. Una estructura clasificada como "VERDE" a las 10:00 AM puede ser letal tras una réplica a las 11:30 AM. Sin hora, el veredicto es inválido.</li>
+                                <li><strong>Detector de Gas Portátil:</strong> (Lel/O2/CO). Mandatorio antes de ingresar a sótanos obstruidos o zonas de ruptura de acometidas de servicios.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NUEVO ACORDEÓN: PROTOCOLO DE COMUNICACIÓN OFFLINE -->
+                <div class="accordion-container border border-movida-border bg-white rounded-[1.2rem] p-4 shadow-sm transition-all duration-300">
+                    <div class="accordion-header flex justify-between items-center cursor-pointer select-none" onclick="toggleAccordion(this)">
+                        <span class="font-bold text-movida-blue flex items-center gap-2"><i class="fa-solid fa-radio text-movida-teal"></i> Protocolo de Comunicación "Offline"</span>
+                        <i class="fa-solid fa-chevron-down text-movida-teal transition-transform duration-300 text-sm"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="overflow-hidden pt-3">
+                            <p class="text-sm text-slate-700 mb-2">
+                                Ante catástrofes sísmicas severas, las redes celulares comerciales de datos se saturan o colapsan por completo. Opere bajo las siguientes reglas de redundancia:
+                            </p>
+                            <ul class="list-disc pl-5 text-sm space-y-2 mt-1 text-slate-700">
+                                <li><strong>Priorización de SMS:</strong> Use la red de mensajería de texto simple (SMS) en lugar de aplicaciones de mensajería web. Los SMS consumen un ancho de banda de control mínimo y logran enviarse incluso con antenas degradadas.</li>
+                                <li><strong>Cartografía Resiliente Descargada:</strong> Asegure la descarga previa de mapas regionales offline (Google Maps sin conexión u OpenStreetMap) con coordenadas de puntos de reunión tácticos grabados en la memoria local del dispositivo.</li>
+                                <li><strong>Radiocomunicación UHF/VHF:</strong> Establezca frecuencias de emergencia predefinidas con el puesto de comando y su binomio antes de ingresar al perímetro de exclusión estructural.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NUEVO ACORDEÓN: GESTIÓN DE MULTITUDES Y TIEMPO -->
+                <div class="accordion-container border border-movida-border bg-white rounded-[1.2rem] p-4 shadow-sm transition-all duration-300">
+                    <div class="accordion-header flex justify-between items-center cursor-pointer select-none" onclick="toggleAccordion(this)">
+                        <span class="font-bold text-movida-blue flex items-center gap-2"><i class="fa-solid fa-people-group text-movida-teal"></i> Control de Tiempo y Multitudes</span>
+                        <i class="fa-solid fa-chevron-down text-movida-teal transition-transform duration-300 text-sm"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="overflow-hidden pt-3">
+                            <ul class="list-disc pl-5 text-sm space-y-2 mt-1 text-slate-700">
+                                <li><strong>Regla de los 15 Minutos:</strong> La evaluación rápida (ATC-20) no debe exceder 15-20 minutos por estructura. El objetivo es clasificar, no realizar peritajes profundos. El tiempo es vida y la exposición al riesgo debe minimizarse.</li>
+                                <li><strong>Manejo de Propietarios en Crisis:</strong> Los residentes en pánico intentarán entrar a la fuerza a estructuras inestables para recuperar pertenencias. <strong>Nunca confronte físicamente.</strong> Sea firme, empático y, si la situación escala a violencia, retire a su equipo y notifique a las fuerzas de seguridad pública.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PESTAÑA 2: INSPECCIÓN EXTERIOR -->
+        <div id="tab-exterior" class="tab-content">
+            <div class="mb-4">
+                <span class="text-xs font-extrabold text-movida-teal uppercase tracking-widest">Fase 2: Abordaje Perimetral</span>
+                <h2 class="text-2xl font-black mt-0.5 text-movida-blue border-none pb-0">Análisis Forense Externo</h2>
+                <p class="text-sm mt-1">La evaluación de seguridad comienza <strong>a una cuadra de distancia</strong>. Identifique el "Mecanismo de Colapso Potencial" antes de pisar la acera del edificio.</p>
+            </div>
+
+            <div class="border-l-4 border-movida-teal bg-movida-teal/5 p-4 rounded-r-xl mb-4">
+                <div class="flex items-center gap-2 text-movida-teal font-bold mb-1">
+                    <i class="fa-solid fa-ruler-combined"></i>
+                    <span>CÁLCULO DE CAÍDA Y EFECTO LÁTIGO</span>
+                </div>
+                <p class="text-sm text-slate-700 mb-2">
+                    Las réplicas causan un "efecto látigo" (whiplash) en la cima de edificios altos. Los escombros (vidrios, mampostería) no caen en línea recta, son proyectados. El radio de seguridad se calcula:
+                </p>
+                <div class="bg-white p-3 rounded-xl text-center border border-movida-border my-3 overflow-x-auto shadow-inner">
+                    <span class="font-mono text-lg text-movida-blue whitespace-nowrap">$$Radio_{seguridad} = 1.5 \times H_{edificio}$$</span>
+                </div>
+                <p class="text-xs text-slate-600 font-medium mt-2">Ejemplo: Para un edificio de 20 metros de altura ($H$), debe mantenerse a mínimo 30 metros de la fachada si observa vidrios fracturados o cornisas sueltas.</p>
+            </div>
+
+            <h2>2. Anatomía del Peligro Externo</h2>
+
+            <div class="space-y-3">
+                <div class="accordion-container border border-movida-border bg-white rounded-[1.2rem] p-4 shadow-sm transition-all duration-300">
+                    <div class="accordion-header flex justify-between items-center cursor-pointer select-none" onclick="toggleAccordion(this)">
+                        <span class="font-bold text-movida-blue flex items-center gap-2"><i class="fa-solid fa-building-circle-exclamation text-movida-teal"></i> Planta Baja Débil (Soft Story)</span>
+                        <i class="fa-solid fa-chevron-down text-movida-teal transition-transform duration-300 text-sm"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="overflow-hidden pt-3">
+                            <p class="text-sm text-slate-700 mb-2">
+                                Muy común en el diseño urbano venezolano (estacionamientos en planta baja sin muros de corte).
+                            </p>
+                            <p class="text-sm font-semibold text-movida-red mb-1">Banderas Rojas Visuales:</p>
+                            <ul class="list-disc pl-5 text-sm space-y-2 text-slate-700">
+                                <li>Observe las columnas de la planta baja. Si nota una <strong>inclinación (deriva) permanente</strong> visible a simple vista, el mecanismo de colapso ha iniciado.</li>
+                                <li>Aparición de <strong>rótulas plásticas</strong>: Desprendimiento masivo del recubrimiento de concreto en la unión viga-columna (nudo), exponiendo el acero doblado (pandeado). <strong>NO INGRESAR. PELIGRO DE COLAPSO TIPO PANCAKE.</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-container border border-movida-border bg-white rounded-[1.2rem] p-4 shadow-sm transition-all duration-300">
+                    <div class="accordion-header flex justify-between items-center cursor-pointer select-none" onclick="toggleAccordion(this)">
+                        <span class="font-bold text-movida-blue flex items-center gap-2"><i class="fa-solid fa-house-crack text-movida-teal"></i> Peligros de Impacto Adyacente (Pounding)</span>
+                        <i class="fa-solid fa-chevron-down text-movida-teal transition-transform duration-300 text-sm"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="overflow-hidden pt-3">
+                            <p class="text-sm text-slate-700 mb-2">
+                                Cuando dos edificios contiguos tienen diferentes alturas o rigideces, chocarán durante el sismo.
+                            </p>
+                            <ul class="list-disc pl-5 text-sm space-y-2 text-slate-700">
+                                <li>Verifique la junta de separación sísmica entre edificios. Si hay <strong>escombros aplastados entre ellos</strong>, han chocado.</li>
+                                <li>Revise el nivel donde el techo del edificio más bajo golpea al más alto. Ese nivel en el edificio alto sufrirá daños severos por cortante. No se ubique bajo esa línea de impacto.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NUEVO ACORDEÓN: EVALUACIÓN AVANZADA DEL TERRENO -->
+                <div class="accordion-container border border-movida-border bg-white rounded-[1.2rem] p-4 shadow-sm transition-all duration-300">
+                    <div class="accordion-header flex justify-between items-center cursor-pointer select-none" onclick="toggleAccordion(this)">
+                        <span class="font-bold text-movida-blue flex items-center gap-2"><i class="fa-solid fa-mountain text-movida-teal"></i> Evaluación del Terreno y Taludes</span>
+                        <i class="fa-solid fa-chevron-down text-movida-teal transition-transform duration-300 text-sm"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="overflow-hidden pt-3">
+                            <p class="text-sm text-slate-700 mb-2">
+                                Una superestructura intacta puede fallar de forma catastrófica si el suelo que sirve de fundación pierde su capacidad portante mecánica:
+                            </p>
+                            <ul class="list-disc pl-5 text-sm space-y-2 text-slate-700">
+                                <li><strong>Licuefacción Activa:</strong> Identifique "volcanes de arena" o surgencias repentinas de agua lodosa brotando a presión por grietas del asfalto o calzadas perimetrales.</li>
+                                <li><strong>Inestabilidad Geotécnica Global:</strong> Busque agrietamientos lineales paralelos en el terreno adyacente o deformaciones notables en muros de contención. La inestabilidad de laderas post-sismo puede detonar un deslizamiento súbito con la menor réplica.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NUEVO ACORDEÓN: SEÑALIZACIÓN DE RIESGOS ATC-20 -->
+                <div class="accordion-container border border-movida-border bg-white rounded-[1.2rem] p-4 shadow-sm transition-all duration-300">
+                    <div class="accordion-header flex justify-between items-center cursor-pointer select-none" onclick="toggleAccordion(this)">
+                        <span class="font-bold text-movida-blue flex items-center gap-2"><i class="fa-solid fa-traffic-light text-movida-teal"></i> Código de Señalización ATC-20</span>
+                        <i class="fa-solid fa-chevron-down text-movida-teal transition-transform duration-300 text-sm"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="overflow-hidden pt-3">
+                            <p class="text-sm text-slate-700 mb-3">
+                                Aplique estrictamente el código internacional estandarizado ATC-20 para rotular el estado del inmueble en su acceso principal de forma unívoca:
+                            </p>
+                            <div class="space-y-2 text-xs">
+                                <div class="flex items-center gap-3 p-2 bg-movida-green/10 border border-movida-green/20 rounded-xl">
+                                    <span class="w-24 text-center py-1 font-black bg-movida-green text-white rounded-lg uppercase tracking-wider flex-shrink-0">VERDE</span>
+                                    <span class="text-slate-700 font-medium"><strong>Inspeccionado:</strong> Estructura habitable y segura. El daño es nulo o menor; no compromete la capacidad portante vertical.</span>
+                                </div>
+                                <div class="flex items-center gap-3 p-2 bg-movida-yellow/10 border border-movida-yellow/20 rounded-xl">
+                                    <span class="w-24 text-center py-1 font-black bg-movida-yellow text-movida-blue rounded-lg uppercase tracking-wider flex-shrink-0">AMARILLO</span>
+                                    <span class="text-slate-700 font-medium"><strong>Uso Restringido:</strong> Riesgo moderado detectado. Entrada permitida exclusivamente bajo límites de tiempo o en áreas no comprometidas.</span>
+                                </div>
+                                <div class="flex items-center gap-3 p-2 bg-movida-red/10 border border-movida-red/20 rounded-xl">
+                                    <span class="w-24 text-center py-1 font-black bg-movida-red text-white rounded-lg uppercase tracking-wider flex-shrink-0">ROJO</span>
+                                    <span class="text-slate-700 font-medium"><strong>Inseguro / Peligro:</strong> Riesgo inminente de colapso estructural local o global. Entrada terminantemente prohibida.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NUEVO ACORDEÓN: FACTOR CLIMÁTICO Y HORARIO -->
+                <div class="accordion-container border border-movida-border bg-white rounded-[1.2rem] p-4 shadow-sm transition-all duration-300">
+                    <div class="accordion-header flex justify-between items-center cursor-pointer select-none" onclick="toggleAccordion(this)">
+                        <span class="font-bold text-movida-blue flex items-center gap-2"><i class="fa-solid fa-cloud-bolt text-movida-teal"></i> Restricciones de Clima y Horario</span>
+                        <i class="fa-solid fa-chevron-down text-movida-teal transition-transform duration-300 text-sm"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="overflow-hidden pt-3">
+                            <p class="text-sm text-slate-700 mb-2">
+                                El entorno natural puede convertir una inspección rutinaria en una trampa mortal:
+                            </p>
+                            <ul class="list-disc pl-5 text-sm space-y-2 text-slate-700">
+                                <li><strong>La Regla del Sol:</strong> <strong>Prohibido evaluar de noche.</strong> La iluminación artificial directa elimina la percepción de profundidad y sus sombras ocultan grietas de cortante letales. Solo se opera con luz diurna plena.</li>
+                                <li><strong>Lluvias Post-Sismo (Efecto Esponja):</strong> Si comienza a llover, aborte la evaluación. El agua añade toneladas de carga viva a techos y escombros debilitados, además de lubricar planos de falla geológica, detonando colapsos secundarios masivos de forma repentina.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PESTAÑA 3: INGRESO SEGURO -->
+        <div id="tab-interior" class="tab-content">
+            <div class="mb-4">
+                <span class="text-xs font-extrabold text-movida-teal uppercase tracking-widest">Fase 3: Operaciones Interiores</span>
+                <h2 class="text-2xl font-black mt-0.5 text-movida-blue border-none pb-0">Supervivencia Intramuros</h2>
+                <p class="text-sm mt-1">Entrar a una estructura dañada es un entorno hostil y de alta incertidumbre (VUCA). La ruta de escape debe ser planificada en tiempo real.</p>
+            </div>
+
+            <!-- NUEVA ALERTA: SENTIDO DE ORIENTACIÓN / REGLA DE LAS 2 RUTAS -->
+            <div class="border-l-4 border-movida-teal bg-movida-teal/5 p-4 rounded-r-xl mb-4">
+                <div class="flex items-center gap-2 text-movida-teal font-black text-xs mb-1 uppercase tracking-wider">
+                    <i class="fa-solid fa-compass"></i>
+                    <span>Orientación Táctica: Regla de las 2 Rutas</span>
+                </div>
+                <p class="text-xs text-slate-700 leading-relaxed font-semibold">
+                    Las distorsiones de entrepiso y deformaciones plásticas bloquean de forma instantánea marcos de puertas y escaleras secundarias. <strong>Bajo ninguna circunstancia penetre en una crujía o nivel sin verificar físicamente un mínimo de dos rutas de escape independientes y despejadas.</strong> Memorice su mapa espacial tridimensional en tiempo real.
+                </p>
+            </div>
+
+            <div class="border-l-4 border-movida-yellow bg-movida-yellow/5 p-4 rounded-r-xl mb-4">
+                <div class="flex items-center gap-2 text-movida-blue font-bold mb-1">
+                    <i class="fa-solid fa-person-running text-movida-yellow"></i>
+                    <span>TÁCTICA DE EVACUACIÓN INMEDIATA (DROP, COVER, HOLD ON)</span>
+                </div>
+                <p class="text-xs text-slate-700 leading-relaxed font-medium">
+                    Si ocurre una réplica fuerte estando adentro, <strong>NO INTENTE SALIR CORRIENDO</strong> si está en niveles superiores. Las escaleras son elementos rígidos propensos a falla frágil y las fachadas caerán sobre usted. <strong>¡Agáchese, Cúbrase y Sujétese!</strong> junto a muros de carga interiores o bajo muebles robustos (Escudos Estructurales). Solo evacúe después de que el temblor cese, evaluando nuevos daños en la ruta.
+                </p>
+            </div>
+
+            <h2>3. Protocolos de Inspección Interna</h2>
+
+            <div class="space-y-3">
+                <div class="accordion-container border border-movida-border bg-white rounded-[1.2rem] p-4 shadow-sm transition-all duration-300">
+                    <div class="accordion-header flex justify-between items-center cursor-pointer select-none" onclick="toggleAccordion(this)">
+                        <span class="font-bold text-movida-blue flex items-center gap-2"><i class="fa-solid fa-shoe-prints text-movida-teal"></i> Dinámica de Puertas y Escaleras</span>
+                        <i class="fa-solid fa-chevron-down text-movida-teal transition-transform duration-300 text-sm"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="overflow-hidden pt-3">
+                            <p class="text-sm text-slate-700 mb-2">
+                                Las vías de escape son críticas y altamente vulnerables a la deformación.
+                            </p>
+                            <ul class="list-disc pl-5 text-sm space-y-2 text-slate-700">
+                                <li><strong>La Regla de la Cuña:</strong> <strong>JAMÁS</strong> permita que una puerta se cierre detrás de usted (especialmente las cortafuegos pesadas). Si el marco se deforma por una réplica, la puerta quedará soldada a presión, atrapándolo en la habitación. Use bloques pesados o herramientas para trabarlas abiertas.</li>
+                                <li><strong>Evaluación de Escaleras (Tread Test):</strong> Las escaleras en voladizo o prefabricadas pueden estar desconectadas de sus apoyos. Antes de subir, empuje la baranda con fuerza y pise el primer escalón de forma contundente sintiendo si hay vibración o despegue. <strong>Suba pegado al muro, no por el borde libre.</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-container border border-movida-border bg-white rounded-[1.2rem] p-4 shadow-sm transition-all duration-300">
+                    <div class="accordion-header flex justify-between items-center cursor-pointer select-none" onclick="toggleAccordion(this)">
+                        <span class="font-bold text-movida-blue flex items-center gap-2"><i class="fa-solid fa-xmark text-movida-teal"></i> Identificación de Fallas Frágiles (El Enemigo)</span>
+                        <i class="fa-solid fa-chevron-down text-movida-teal transition-transform duration-300 text-sm"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="overflow-hidden pt-3">
+                            <p class="text-sm text-slate-700 mb-2">
+                                La falla dúctil (el concreto se agrieta, el acero se dobla lentamente) da advertencia. La falla frágil (explosiva, repentina) mata al evaluador sin previo aviso.
+                            </p>
+                            <ul class="list-disc pl-5 text-sm space-y-2 text-slate-700">
+                                <li><strong class="text-movida-red">Grietas por Cortante (Shear Cracks):</strong> Busque grietas diagonales (a menudo en forma de <strong>"X"</strong>) en columnas o muros. Si tienen más de <strong>3 mm de espesor (puede insertar un lápiz)</strong>, la capacidad de carga vertical está críticamente comprometida.</li>
+                                <li><strong class="text-movida-red">Fallas en Columna Corta:</strong> Muy comunes donde ventanas u otros muros limitan la longitud libre de una columna. Concentran esfuerzos inmensos y explotan. Si ve columnas "mordidas" por muros enanos con grietas diagonales extremas, marque <span class="bg-movida-red text-white px-1 rounded text-xs font-bold">ROJO</span> y salga.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-container border border-movida-border bg-white rounded-[1.2rem] p-4 shadow-sm transition-all duration-300">
+                    <div class="accordion-header flex justify-between items-center cursor-pointer select-none" onclick="toggleAccordion(this)">
+                        <span class="font-bold text-movida-blue flex items-center gap-2"><i class="fa-solid fa-ear-listen text-movida-teal"></i> Diagnóstico Acústico (Listen to the Building)</span>
+                        <i class="fa-solid fa-chevron-down text-movida-teal transition-transform duration-300 text-sm"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="overflow-hidden pt-3">
+                            <p class="text-sm text-slate-700">
+                                Un edificio severamente dañado "habla" incluso cuando no hay réplicas. El acero fluyendo (pandeando) y el concreto triturándose generan sonidos (crujidos, estallidos metálicos o caídas internas de escombros). Si escucha "llorar" a la estructura, significa que aún se está acomodando a las nuevas cargas y está activa. <strong>EVACUAR.</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN DE CRÉDITOS Y CONTACTO -->
+        <div class="mt-10 mb-4 border-t border-movida-border pt-6 text-center">
+            
+            <!-- BANNER DEL CANAL DE WHATSAPP -->
+            <div class="bg-[#25D366]/10 border border-[#25D366]/30 rounded-[1.2rem] p-5 mb-6 mx-auto shadow-sm transition-transform hover:scale-[1.02]">
+                <div class="flex items-center justify-center gap-2 text-[#128C7E] font-black mb-1.5 text-lg">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i>
+                    <span>¡Únete a nuestra comunidad!</span>
+                </div>
+                <p class="text-sm text-slate-700 mb-4 font-medium leading-relaxed">
+                    Recibe alertas, protocolos tácticos y más recursos de seguridad directamente en tu celular.
+                </p>
+                <a href="https://whatsapp.com/channel/0029Va0mlH5Jf05mrcCz8r3e" target="_blank" class="inline-flex items-center justify-center gap-2 bg-[#25D366] text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-[0_4px_10px_rgba(37,211,102,0.3)] hover:bg-[#20bd5a] hover:shadow-[0_6px_14px_rgba(37,211,102,0.4)] transition-all active:scale-95 w-full sm:w-auto uppercase tracking-wide">
+                    <i class="fa-solid fa-plus"></i> Seguir Canal en WhatsApp
+                </a>
+            </div>
+
+            <p class="text-[0.85rem] text-slate-500 font-medium">Elaborado por <strong class="text-movida-blue">David Linares Brea</strong></p>
+            <div class="flex justify-center gap-5 mt-2">
+                <a href="https://www.movidasst.com" target="_blank" class="text-[0.75rem] text-movida-teal hover:text-movida-blue transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-globe"></i> www.movidasst.com
+                </a>
+                <a href="mailto:info@movidasst.com" class="text-[0.75rem] text-movida-teal hover:text-movida-blue transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-envelope"></i> info@movidasst.com
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Tab Bar Inferior Fijo de Navegación Móvil (Mejora Contraste: text-slate-500) -->
+    <nav class="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-[20px] border-t border-movida-border shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-50 h-[5.5rem] pb-4 pt-1 flex items-center justify-around px-2">
+        <button onclick="switchTab(event, 'tab-inicio')" class="tab-btn flex flex-col items-center justify-center flex-1 h-full text-movida-teal">
+            <i class="fa-solid fa-shield-halved text-[1.35rem] mb-1.5"></i>
+            <span class="text-[0.65rem] font-bold uppercase tracking-wider">Previo</span>
+        </button>
+        <button onclick="switchTab(event, 'tab-exterior')" class="tab-btn flex flex-col items-center justify-center flex-1 h-full text-slate-500">
+            <i class="fa-solid fa-eye text-[1.35rem] mb-1.5"></i>
+            <span class="text-[0.65rem] font-bold uppercase tracking-wider">Exterior</span>
+        </button>
+        <button onclick="switchTab(event, 'tab-interior')" class="tab-btn flex flex-col items-center justify-center flex-1 h-full text-slate-500">
+            <i class="fa-solid fa-building-circle-check text-[1.35rem] mb-1.5"></i>
+            <span class="text-[0.65rem] font-bold uppercase tracking-wider">Ingreso</span>
+        </button>
+    </nav>
+
+    <!-- Lógica de Control JavaScript Requerida -->
+    <script>
+        // Inicialización segura de KaTeX tras cargar el DOM completo
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ],
+                throwOnError: false
+            });
+        });
+
+        // Lógica de navegación exclusiva entre pestañas móviles (Tabs)
+        function switchTab(event, tabId) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('text-movida-teal');
+                btn.classList.add('text-slate-500');
+            });
+
+            const targetTab = document.getElementById(tabId);
+            if (targetTab) {
+                targetTab.classList.add('active');
+            }
+
+            const currentButton = event.currentTarget;
+            currentButton.classList.remove('text-slate-500');
+            currentButton.classList.add('text-movida-teal');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Lógica interactiva para comportamiento de acordeón exclusivo
+        function toggleAccordion(header) {
+            const container = header.parentElement;
+            const chevron = header.querySelector('.fa-chevron-down');
+            const isAlreadyActive = container.classList.contains('active');
+
+            const allContainers = document.querySelectorAll('.accordion-container');
+            allContainers.forEach(item => {
+                item.classList.remove('active');
+                const icon = item.querySelector('.fa-chevron-down');
+                if (icon) icon.style.transform = 'rotate(0deg)';
+            });
+
+            if (!isAlreadyActive) {
+                container.classList.add('active');
+                if (chevron) {
+                    chevron.style.transform = 'rotate(180deg)';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
